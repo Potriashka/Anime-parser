@@ -18,9 +18,11 @@ urlsEN = ["https://www.hidive.com/dubs", "https://www.hidive.com/dubs/action-adv
 lang = input("Choose a language (en, ru):   ")
 
 if lang == "ru":
-    print("0 - all animes\nThen genres:\n1 - dementia\n2-martial arts\n3-vampire\n4-military\n5-harem\n6-demons\n7-mystery\n8-kids")
+    print("0 - all animes\nThen genres:\n\n1 - dementia\n\n2 - martial arts\n\n3 - vampire\n\n4 - military\n\n5 - harem\n\n6 - demons\n\n7 - mystery\n\n8 - kids\n-----------------")
 
     input = input()
+
+    print("-----------------")
 
     url = urlsRU[int(input)]
 
@@ -38,12 +40,14 @@ if lang == "ru":
     test = soup.findAll("div", class_="h5 font-weight-normal mb-1") # here we choose what we'll parse: anime names
 
     for item in test:
-        print(item.text)
+        print(item.text + "\n")
 
 if lang == "en":
-    print("0 - all animes\nThen genres:\n1 - action adventure\n2 - comedy\n3 - drama\n4 - fantasy\n5 - horror\n6 - kids family\n7 - lgbt\n8 - live action\n9 - mystery thriller\n10 - romance\n11 - science-fiction\n12 - sports\n13 - supernatural")
+    print("0 - all animes\n\nThen genres:\n\n1 - action adventure\n\n2 - comedy\n\n3 - drama\n\n4 - fantasy\n\n5 - horror\n\n6 - kids family\n\n7 - lgbt\n\n8 - live action\n\n9 - mystery thriller\n\n10 - romance\n\n11 - science-fiction\n\n12 - sports\n\n13 - supernatural\n-----------------")
 
     input = input()
+
+    print("-----------------")
 
     url = urlsEN[int(input)]
 
@@ -62,6 +66,3 @@ if lang == "en":
 
     for item in test:
         print(item.text)
-
-else:
-    print("That language doesn't exist!")
