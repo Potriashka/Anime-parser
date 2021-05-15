@@ -17,52 +17,28 @@ urlsEN = ["https://www.hidive.com/dubs", "https://www.hidive.com/dubs/action-adv
 
 lang = input("Choose a language (en, ru):   ")
 
-if lang == "ru":
-    print("0 - all animes\nThen genres:\n\n1 - dementia\n\n2 - martial arts\n\n3 - vampire\n\n4 - military\n\n5 - harem\n\n6 - demons\n\n7 - mystery\n\n8 - kids\n-----------------")
+russian = lang == "ru"
 
-    input = input()
+print("0 - all animes\nThen genres:\n\n1 - dementia\n\n2 - martial arts\n\n3 - vampire\n\n4 - military\n\n5 - harem\n\n6 - demons\n\n7 - mystery\n\n8 - kids\n-----------------")
 
-    print("-----------------")
+input = int(input())
 
-    url = urlsRU[int(input)]
+print("-----------------")
 
-    req = requests.get(url, headers=headers)
-    src = req.text
+url = urlsRU[input] if russian else urlsEN[input]
 
-    with open("index.html", "w") as file:
-        file.write(src)
+req = requests.get(url, headers=headers)
+src = req.text
 
-    with open("index.html") as file:
-        src = file.read()
+with open("index.html", "w") as file:
+    file.write(src)
 
-    soup = BeautifulSoup(src, "lxml")
+with open("index.html") as file:
+    src = file.read()
 
-    test = soup.findAll("div", class_="h5 font-weight-normal mb-1") # here we choose what we'll parse: anime names
+soup = BeautifulSoup(src, "lxml")
 
-    for item in test:
-        print(item.text + "\n")
+test = soup.findAll("div", class_="h5 font-weight-normal mb-1" if russian else "synopsis") # here we choose what we'll parse: anime names
 
-if lang == "en":
-    print("0 - all animes\n\nThen genres:\n\n1 - action adventure\n\n2 - comedy\n\n3 - drama\n\n4 - fantasy\n\n5 - horror\n\n6 - kids family\n\n7 - lgbt\n\n8 - live action\n\n9 - mystery thriller\n\n10 - romance\n\n11 - science-fiction\n\n12 - sports\n\n13 - supernatural\n-----------------")
-
-    input = input()
-
-    print("-----------------")
-
-    url = urlsEN[int(input)]
-
-    req = requests.get(url, headers=headers)
-    src = req.text
-
-    with open("index.html", "w") as file:
-        file.write(src)
-
-    with open("index.html") as file:
-        src = file.read()
-
-    soup = BeautifulSoup(src, "lxml")
-
-    test = soup.findAll("div", class_="synopsis")  # here we choose what we'll parse: anime names
-
-    for item in test:
-        print(item.text)
+for item in test:
+    print(item.text + "\n")
