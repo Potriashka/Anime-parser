@@ -19,7 +19,11 @@ lang = input("Choose a language (en, ru):   ")
 
 russian = lang == "ru"
 
-print("0 - all animes\nThen genres:\n\n1 - dementia\n\n2 - martial arts\n\n3 - vampire\n\n4 - military\n\n5 - harem\n\n6 - demons\n\n7 - mystery\n\n8 - kids\n-----------------")
+print("0 - all animes\n\nThen genres:\n\n" + "1 - dementia\n\n2 - martial arts\n\n3 - vampire\n\n\
+    4 - military\n\n5 - harem\n\n6 - demons\n\n7 - mystery\n\n8 - kids\n-----------------" if russian else \
+        "1 - action adventure\n\n2 - comedy\n\n3 - drama\n\n\
+            4 - fantasy\n\n5 - horror\n\n6 - kids family\n\n7 - lgbt\n\n8 - live action\n\n9 - mystery thriller\n\n10 - romance\n\n\
+                11 - science-fiction\n\n12 - sports\n\n13 - supernatural\n-----------------")
 
 input = int(input())
 
