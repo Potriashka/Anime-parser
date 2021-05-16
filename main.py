@@ -1,7 +1,8 @@
 import requests
 from bs4 import BeautifulSoup
 import colorama
-from colorama import Style
+from colorama import Fore
+import wikipedia
 
 colorama.init(autoreset=True)
 
@@ -78,5 +79,23 @@ for item in test:
     linkSUB = soup.find("div", class_="yuRUbf").find('a')
     linkSUB = linkSUB.get("href")
 
+    def shorten(string):
+        short = ""
+        counter = 0
+        for char in string:
+            short += char
+            if counter > 100 and char == ".":
+                break
+            else:
+                counter += 1
+        return short
+
+
+    try:
+        summary = shorten(wikipedia.summary(item.text)) + "\n" if not russian else ""
+    except:
+        summary = ""
+
     print(f'{Fore.WHITE}{item.text}')
+    print(summary)
     print("Watch: " + link + "\nWatch with subtitles: " + linkSUB + "\n\n")
