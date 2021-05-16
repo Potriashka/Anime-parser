@@ -1,5 +1,9 @@
 import requests
 from bs4 import BeautifulSoup
+import colorama
+from colorama import Fore, Back, Style
+
+colorama.init(autoreset=True)
 
 headers = { # maybe we'll need it to avoid an anti-parser system //but maybe, if you have an error, you should delete it
     'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36'
@@ -74,4 +78,5 @@ for item in test:
     linkSUB = soup.find("div", class_="yuRUbf").find('a')
     linkSUB = linkSUB.get("href")
 
-    print(item.text + "\nWatch: " + link + "\nWatch with subtitles: " + linkSUB + "\n")
+    print(f'{Fore.WHITE}{item.text}')
+    print("\nWatch: " + link + "\nWatch with subtitles: " + linkSUB + "\n")
