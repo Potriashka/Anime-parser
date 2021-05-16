@@ -46,6 +46,7 @@ test = soup.findAll("div", class_="h5 font-weight-normal mb-1" if russian else "
 
 for item in test:
     url = 'https://www.google.com/search?q=' + item.text + ' смотреть ' + '&aqs=chrome..69i57.8359j0j1&sourceid=chrome&ie=UTF-8' if russian else 'https://www.google.com/search?q=' + item.text + " watch " + '&aqs=chrome..69i57.8359j0j1&sourceid=chrome&ie=UTF-8'
+    urlSUB = 'https://www.google.com/search?q=' + item.text + ' смотреть субтитры ' + '&aqs=chrome..69i57.8359j0j1&sourceid=chrome&ie=UTF-8' if russian else 'https://www.google.com/search?q=' + item.text + " watch subtitles " + '&aqs=chrome..69i57.8359j0j1&sourceid=chrome&ie=UTF-8'
 
     req = requests.get(url, headers=headers)
     src = req.text
@@ -59,4 +60,18 @@ for item in test:
     soup = BeautifulSoup(src, "lxml")
     link = soup.find("div", class_="yuRUbf").find('a')
     link = link.get("href")
-    print(item.text, " " + link + "\n")
+
+    req = requests.get(urlSUB, headers=headers)
+    src = req.text
+
+    with open("index.html", "w") as file:
+        file.write(src)
+
+    with open("index.html") as file:
+        src = file.read()
+
+    soup = BeautifulSoup(src, "lxml")
+    linkSUB = soup.find("div", class_="yuRUbf").find('a')
+    linkSUB = linkSUB.get("href")
+
+    print(item.text + "\nWatch: " + link + "\nWatch with subtitles: " + linkSUB + "\n")
