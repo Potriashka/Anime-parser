@@ -1,7 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 import colorama
-from colorama import Fore, Back, Style
+from colorama import Style
 
 colorama.init(autoreset=True)
 
