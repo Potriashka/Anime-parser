@@ -1,7 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 import colorama
-from colorama import Fore
+from colorama import Fore, Back
 import wikipedia
 
 colorama.init(autoreset=True)
@@ -52,6 +52,7 @@ test = soup.findAll("div", class_="h5 font-weight-normal mb-1" if russian else "
 for item in test:
     url = 'https://www.google.com/search?q=' + item.text + ' смотреть ' + '&aqs=chrome..69i57.8359j0j1&sourceid=chrome&ie=UTF-8' if russian else 'https://www.google.com/search?q=' + item.text + " watch " + '&aqs=chrome..69i57.8359j0j1&sourceid=chrome&ie=UTF-8'
     urlSUB = 'https://www.google.com/search?q=' + item.text + ' смотреть субтитры ' + '&aqs=chrome..69i57.8359j0j1&sourceid=chrome&ie=UTF-8' if russian else 'https://www.google.com/search?q=' + item.text + " watch subtitles " + '&aqs=chrome..69i57.8359j0j1&sourceid=chrome&ie=UTF-8'
+    urlRate = 'https://www.google.com/search?q=' + item.text + ' yummyanime рейтинг ' + '&aqs=chrome..69i57.8359j0j1&sourceid=chrome&ie=UTF-8' if russian else 'https://www.google.com/search?q=' + item.text + ' myanimelist.net rating ' + '&aqs=chrome..69i57.8359j0j1&sourceid=chrome&ie=UTF-8'
 
     req = requests.get(url, headers=headers)
     src = req.text
@@ -79,6 +80,31 @@ for item in test:
     linkSUB = soup.find("div", class_="yuRUbf").find('a')
     linkSUB = linkSUB.get("href")
 
+    req = requests.get(urlRate, headers=headers)
+    src = req.text
+
+    with open("index.html", "w") as file:
+        file.write(src)
+
+    with open("index.html") as file:
+        src = file.read()
+
+    soup = BeautifulSoup(src, "lxml")
+    link = soup.find("div", class_="yuRUbf").find('a')
+    link = link.get("href")
+
+    req = requests.get(link, headers=headers)
+    src = req.text
+
+    with open("index.html", "w") as file:
+        file.write(src)
+
+    with open("index.html") as file:
+        src = file.read()
+
+    soup = BeautifulSoup(src, "lxml")
+    Rate = soup.find("span", class_="main-rating" if russian else "score-label score-7")
+
     def shorten(string):
         short = ""
         counter = 0
@@ -90,12 +116,19 @@ for item in test:
                 counter += 1
         return short
 
-
     try:
         summary = shorten(wikipedia.summary(item.text)) + "\n" if not russian else ""
     except:
         summary = ""
 
+    noth = 'true'
+
+    if str(Rate) == "None":
+        noth = 'true'
+    else:
+        noth = 'false'
+
     print(f'{Fore.WHITE}{item.text}')
+    print('' if noth == 'true' else f'Rating: Back.YELLOW}{Fore.BLACK}{Rate.text}')
     print(summary)
     print("Watch: " + link + "\nWatch with subtitles: " + linkSUB + "\n\n")
