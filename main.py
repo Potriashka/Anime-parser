@@ -21,7 +21,7 @@ urlsEN = ["https://www.hidive.com/dubs", "https://www.hidive.com/dubs/action-adv
           "https://www.hidive.com/tv/sports?sort=a-z&audio=all&subtitles=all", "https://www.hidive.com/tv/supernatural?sort=a-z&audio=all&subtitles=all"]
 
 
-userInput = input()
+userInput = input("What do you want (list, music):   ")
 print("-----------------")
 while userInput:
     if "list" in userInput:
