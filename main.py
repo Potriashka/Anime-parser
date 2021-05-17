@@ -20,115 +20,138 @@ urlsEN = ["https://www.hidive.com/dubs", "https://www.hidive.com/dubs/action-adv
           "https://www.hidive.com/tv/mystery-thriller?sort=a-z&audio=all&subtitles=all", "https://www.hidive.com/tv/romance?sort=a-z&audio=all&subtitles=all", "https://www.hidive.com/tv/science-fiction?sort=a-z&audio=all&subtitles=all",
           "https://www.hidive.com/tv/sports?sort=a-z&audio=all&subtitles=all", "https://www.hidive.com/tv/supernatural?sort=a-z&audio=all&subtitles=all"]
 
-lang = input("Choose a language (en, ru):   ")
 
-russian = lang == "ru"
+userInput = input()
+print("-----------------")
+while userInput:
+    if "list" in userInput:
+        lang = input("Choose a language (en, ru):   ")
 
-print("\n0 - all animes\n\nThen genres:\n\n" + "1 - dementia\n\n2 - martial arts\n\n3 - vampire\n\n\
+        russian = lang == "ru"
+
+        print("\n0 - all animes\n\nThen genres:\n\n" + "1 - dementia\n\n2 - martial arts\n\n3 - vampire\n\n\
 4 - military\n\n5 - harem\n\n6 - demons\n\n7 - mystery\n\n8 - kids\n-----------------" if russian else \
-"\n0 - all animes\n\n1 - action adventure\n\n2 - comedy\n\n3 - drama\n\n\
+        "\n0 - all animes\n\n1 - action adventure\n\n2 - comedy\n\n3 - drama\n\n\
 4 - fantasy\n\n5 - horror\n\n6 - kids family\n\n7 - lgbt\n\n8 - live action\n\n9 - mystery thriller\n\n10 - romance\n\n\
 11 - science-fiction\n\n12 - sports\n\n13 - supernatural\n-----------------")
 
-input = int(input())
+        input = int(input())
 
-print("-----------------")
+        print("-----------------")
 
-url = urlsRU[input] if russian else urlsEN[input]
+        url = urlsRU[input] if russian else urlsEN[input]
 
-req = requests.get(url, headers=headers)
-src = req.text
+        req = requests.get(url, headers=headers)
+        src = req.text
 
-with open("index.html", "w") as file:
-    file.write(src)
+        with open("index.html", "w") as file:
+            file.write(src)
 
-with open("index.html") as file:
-    src = file.read()
+        with open("index.html") as file:
+            src = file.read()
 
-soup = BeautifulSoup(src, "lxml")
+        soup = BeautifulSoup(src, "lxml")
 
-test = soup.findAll("div", class_="h5 font-weight-normal mb-1" if russian else "synopsis") # here we choose what we'll parse: anime names
+        test = soup.findAll("div", class_="h5 font-weight-normal mb-1" if russian else "synopsis") # here we choose what we'll parse: anime names
 
-for item in test:
-    url = 'https://www.google.com/search?q=' + item.text + ' смотреть ' + '&aqs=chrome..69i57.8359j0j1&sourceid=chrome&ie=UTF-8' if russian else 'https://www.google.com/search?q=' + item.text + " watch " + '&aqs=chrome..69i57.8359j0j1&sourceid=chrome&ie=UTF-8'
-    urlSUB = 'https://www.google.com/search?q=' + item.text + ' смотреть субтитры ' + '&aqs=chrome..69i57.8359j0j1&sourceid=chrome&ie=UTF-8' if russian else 'https://www.google.com/search?q=' + item.text + " watch subtitles " + '&aqs=chrome..69i57.8359j0j1&sourceid=chrome&ie=UTF-8'
-    urlRate = 'https://www.google.com/search?q=' + item.text + ' yummyanime рейтинг ' + '&aqs=chrome..69i57.8359j0j1&sourceid=chrome&ie=UTF-8' if russian else 'https://www.google.com/search?q=' + item.text + ' myanimelist.net rating ' + '&aqs=chrome..69i57.8359j0j1&sourceid=chrome&ie=UTF-8'
+        for item in test:
+            url = 'https://www.google.com/search?q=' + item.text + ' смотреть ' + '&aqs=chrome..69i57.8359j0j1&sourceid=chrome&ie=UTF-8' if russian else 'https://www.google.com/search?q=' + item.text + " watch " + '&aqs=chrome..69i57.8359j0j1&sourceid=chrome&ie=UTF-8'
+            urlSUB = 'https://www.google.com/search?q=' + item.text + ' смотреть субтитры ' + '&aqs=chrome..69i57.8359j0j1&sourceid=chrome&ie=UTF-8' if russian else 'https://www.google.com/search?q=' + item.text + " watch subtitles " + '&aqs=chrome..69i57.8359j0j1&sourceid=chrome&ie=UTF-8'
+            urlRate = 'https://www.google.com/search?q=' + item.text + ' yummyanime рейтинг ' + '&aqs=chrome..69i57.8359j0j1&sourceid=chrome&ie=UTF-8' if russian else 'https://www.google.com/search?q=' + item.text + ' myanimelist.net rating ' + '&aqs=chrome..69i57.8359j0j1&sourceid=chrome&ie=UTF-8'
 
-    req = requests.get(url, headers=headers)
-    src = req.text
+            req = requests.get(url, headers=headers)
+            src = req.text
 
-    with open("index.html", "w") as file:
-        file.write(src)
+            with open("index.html", "w") as file:
+                file.write(src)
 
-    with open("index.html") as file:
-        src = file.read()
+            with open("index.html") as file:
+                src = file.read()
 
-    soup = BeautifulSoup(src, "lxml")
-    link = soup.find("div", class_="yuRUbf").find('a')
-    link = link.get("href")
+            soup = BeautifulSoup(src, "lxml")
+            link = soup.find("div", class_="yuRUbf").find('a')
+            link = link.get("href")
 
-    req = requests.get(urlSUB, headers=headers)
-    src = req.text
+            req = requests.get(urlSUB, headers=headers)
+            src = req.text
 
-    with open("index.html", "w") as file:
-        file.write(src)
+            with open("index.html", "w") as file:
+                file.write(src)
 
-    with open("index.html") as file:
-        src = file.read()
+            with open("index.html") as file:
+                src = file.read()
 
-    soup = BeautifulSoup(src, "lxml")
-    linkSUB = soup.find("div", class_="yuRUbf").find('a')
-    linkSUB = linkSUB.get("href")
+            soup = BeautifulSoup(src, "lxml")
+            linkSUB = soup.find("div", class_="yuRUbf").find('a')
+            linkSUB = linkSUB.get("href")
 
-    req = requests.get(urlRate, headers=headers)
-    src = req.text
+            req = requests.get(urlRate, headers=headers)
+            src = req.text
 
-    with open("index.html", "w") as file:
-        file.write(src)
+            with open("index.html", "w") as file:
+                file.write(src)
 
-    with open("index.html") as file:
-        src = file.read()
+            with open("index.html") as file:
+                src = file.read()
 
-    soup = BeautifulSoup(src, "lxml")
-    link = soup.find("div", class_="yuRUbf").find('a')
-    link = link.get("href")
+            soup = BeautifulSoup(src, "lxml")
+            link = soup.find("div", class_="yuRUbf").find('a')
+            link = link.get("href")
 
-    req = requests.get(link, headers=headers)
-    src = req.text
+            req = requests.get(link, headers=headers)
+            src = req.text
 
-    with open("index.html", "w") as file:
-        file.write(src)
+            with open("index.html", "w") as file:
+                file.write(src)
 
-    with open("index.html") as file:
-        src = file.read()
+            with open("index.html") as file:
+                src = file.read()
 
-    soup = BeautifulSoup(src, "lxml")
-    Rate = soup.find("span", class_="main-rating" if russian else "score-label score-7")
+            soup = BeautifulSoup(src, "lxml")
+            Rate = soup.find("span", class_="main-rating" if russian else "score-label score-7")
 
-    def shorten(string):
-        short = ""
-        counter = 0
-        for char in string:
-            short += char
-            if counter > 100 and char == ".":
-                break
+            def shorten(string):
+                short = ""
+                counter = 0
+                for char in string:
+                    short += char
+                    if counter > 100 and char == ".":
+                        break
+                    else:
+                        counter += 1
+                return short
+
+            try:
+                summary = shorten(wikipedia.summary(item.text)) + "\n" if not russian else ""
+            except:
+                summary = ""
+
+            noth = 'true'
+
+            if str(Rate) == "None":
+                noth = 'true'
             else:
-                counter += 1
-        return short
+                noth = 'false'
 
-    try:
-        summary = shorten(wikipedia.summary(item.text)) + "\n" if not russian else ""
-    except:
-        summary = ""
+            print(f'{Fore.WHITE}{item.text}')
+            print('' if noth == 'true' else f'Rating: {Back.YELLOW}{Fore.BLACK}{Rate.text}')
+            print(summary)
+            print("Watch: " + link + "\nWatch with subtitles: " + linkSUB + "\n\n")
 
-    noth = 'true'
+            userInput = ""
+    if "music" in userInput:
+        req = requests.get("https://pastebin.com/HYr8TLV6", headers=headers)
+        src = req.text
 
-    if str(Rate) == "None":
-        noth = 'true'
-    else:
-        noth = 'false'
+        with open("index.html", "w") as file:
+            file.write(src)
 
-    print(f'{Fore.WHITE}{item.text}')
-    print('' if noth == 'true' else f'Rating: Back.YELLOW}{Fore.BLACK}{Rate.text}')
-    print(summary)
-    print("Watch: " + link + "\nWatch with subtitles: " + linkSUB + "\n\n")
+        with open("index.html") as file:
+            src = file.read()
+
+        soup = BeautifulSoup(src, "lxml")
+        links = soup.find("textarea", class_="textarea")
+
+        print(links.text)
+
+        userInput = ""
