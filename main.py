@@ -4,6 +4,12 @@ import colorama
 from colorama import Fore, Back
 import wikipedia
 
+import warnings
+
+warnings.catch_warnings()
+
+warnings.simplefilter("ignore")
+
 colorama.init(autoreset=True)
 
 headers = { # maybe we'll need it to avoid an anti-parser system //but maybe, if you have an error, you should delete it
