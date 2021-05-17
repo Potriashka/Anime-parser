@@ -21,7 +21,7 @@ urlsEN = ["https://www.hidive.com/dubs", "https://www.hidive.com/dubs/action-adv
           "https://www.hidive.com/tv/sports?sort=a-z&audio=all&subtitles=all", "https://www.hidive.com/tv/supernatural?sort=a-z&audio=all&subtitles=all"]
 
 
-userInput = input("What do you want (list, music):   ")
+userInput = input("What do you want (list, music, links, about):   ")
 print("-----------------")
 while userInput:
     if "list" in userInput:
@@ -139,8 +139,8 @@ while userInput:
             print("Watch: " + link + "\nWatch with subtitles: " + linkSUB + "\n\n")
 
             userInput = ""
-    if "music" in userInput:
-        req = requests.get("https://pastebin.com/HYr8TLV6", headers=headers)
+    if "music" in userInput or "links" in userInput:
+        req = requests.get("https://pastebin.com/uNAs7sQ5" if "links" in userInput else "https://pastebin.com/HYr8TLV6", headers=headers)
         src = req.text
 
         with open("index.html", "w") as file:
@@ -154,4 +154,12 @@ while userInput:
 
         print(links.text)
 
+        userInput = ""
+
+    if "about" in userInput:
+        print("That is a python script made by Peter Repiev in 2021.\n"
+              "Basically, It's your anime-assistant, that'll help you\n"
+              "choose anime to watch, music to listen, links to be interested\n"
+              "in and more. Please, enjoy!\n"
+              "Source: https://github.com/Potriashka/Anime-parser")
         userInput = ""
