@@ -4,12 +4,6 @@ import colorama
 from colorama import Fore, Back
 import wikipedia
 
-import warnings
-
-warnings.catch_warnings()
-
-warnings.simplefilter("ignore")
-
 colorama.init(autoreset=True)
 
 headers = { # maybe we'll need it to avoid an anti-parser system //but maybe, if you have an error, you should delete it
@@ -130,7 +124,7 @@ while userInput:
             try:
                 summary = shorten(wikipedia.summary(item.text)) + "\n" if not russian else ""
             except:
-                summary = ""
+                summary = "No description found"
 
             noth = 'true'
 
@@ -140,7 +134,7 @@ while userInput:
                 noth = 'false'
 
             print(f'{Fore.WHITE}{item.text}')
-            print('' if noth == 'true' else f'Rating: {Back.YELLOW}{Fore.BLACK}{Rate.text}')
+            print('No rating found :(' if noth == 'true' else f'Rating: {Back.YELLOW}{Fore.BLACK}{Rate.text}')
             print(summary)
             print("Watch: " + link + "\nWatch with subtitles: " + linkSUB + "\n\n")
 
